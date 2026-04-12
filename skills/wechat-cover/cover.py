@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.8"
+# dependencies = ["Pillow"]
+# ///
 """Generate WeChat Official Account cover images."""
 
 import argparse
