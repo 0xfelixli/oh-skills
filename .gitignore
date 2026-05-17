@@ -8,3 +8,16 @@ wheels/
 
 # Virtual environments
 .venv
+
+# Node/Bun dependencies
+node_modules/
+
+# Environment files
+.env
+.env.*
+
+# macOS
+.DS_Store
+
+# Logs
+*.log

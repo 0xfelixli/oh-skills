@@ -1,65 +1,52 @@
 # oh-skills
 
-A collection of custom Claude Code skills.
+Agent-first skill collection for Claude Code style runtimes.
 
-## Skills
+This repository contains reusable `skills/*` bundles that help agents complete concrete tasks.
 
-### wechat-cover
+## Naming Convention
 
-Generate WeChat Official Account cover images (900×383) with gradient background, title, subtitle, and author.
+To keep naming consistent:
 
-```bash
-uv run skills/wechat-cover/cover.py --title "标题" --subtitle "副标题" --author "作者"
-```
+- Folder name: `verb-target` (e.g. `post-to-wechat`)
+- Skill `name` in `SKILL.md`: same as folder name
+- README display name: same as folder name
 
-Options:
-- `--title` (required): Main title
-- `--subtitle`: Subtitle
-- `--author`: Author name (top-left corner)
-- `--output`: Output path (default: `cover.png`)
-- `--colors`: Gradient colors, comma-separated hex (default: `#1a1a2e,#16213e`)
-- `--font`: Custom font file path
+## Included Skills
 
-## Installation
+### 1) `post-to-wechat`
 
-### As Claude Code Plugin
+Post content to WeChat Official Account (微信公众号), supporting:
 
-Add to your `~/.claude/settings.json`:
+- Article posting (文章): Markdown / HTML / plain text
+- Image-text posting (贴图/图文)
+- API publish and browser publish modes
 
-```json
-{
-  "extraKnownMarketplaces": {
-    "oh-skills": {
-      "source": {
-        "source": "github",
-        "repo": "feesec/oh-skills"
-      }
-    }
-  },
-  "enabledPlugins": {
-    "wechat-cover@oh-skills": true
-  }
-}
-```
+Path: `skills/post-to-wechat/`
 
-Restart Claude Code.
+Main entry docs:
 
-### Manual Installation
+- `skills/post-to-wechat/SKILL.md`
+- `skills/post-to-wechat/references/`
 
-```bash
-# Install uv (if you don't have it)
-brew install uv
+### 2) `wechat-cover-image`
 
-# Clone the repo
-git clone https://github.com/feesec/oh-skills.git
+Generate finished WeChat cover images (公众号封面图成品), default size `900x383`, with brand label and title-safe layout.
 
-# Symlink to Claude Code skills directory
-ln -s $(pwd)/oh-skills/skills/wechat-cover ~/.claude/skills/wechat-cover
+Path: `skills/wechat-cover-image/`
 
-# Install font (if you don't have Noto Sans CJK SC)
-brew install font-noto-sans-cjk-sc
-```
+Main entry docs:
 
-No need to `pip install` anything — `uv run` handles dependencies automatically.
+- `skills/wechat-cover-image/SKILL.md`
+- `skills/wechat-cover-image/references/`
 
-Restart Claude Code.
+## Repository Layout
+
+- `skills/`: skill packages used by agents
+- `docs/`: design/spec/planning notes
+
+## Notes
+
+- This repo is for **agent skills**, not a traditional app package.
+- Old `skills/wechat-cover/` has been removed.
+- Local runtime artifacts like `.env`, `node_modules`, `.DS_Store` should not be committed.
