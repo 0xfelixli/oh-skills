@@ -104,6 +104,10 @@ Use the Conduit CLI to manage Phabricator / Phorge tasks, diffs, repositories, a
 
 Run entrypoint-based security audits that produce evidence-backed findings, PoCs, and durable audit artifacts.
 
+### 7) `duanzi-writer`
+
+Write Chinese social-media jokes, punchy observations, and short comedic posts for AI tools, developer workflows, products, and internet culture.
+
 ## Notes
 
 - This repository is mainly a personal collection of useful skills, not a traditional application project.

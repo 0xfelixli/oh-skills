@@ -1,0 +1,5 @@
+interface:
+  display_name: "WeChat Media Workflow"
+  short_description: "端到端处理微信公众号选题、写作、配图、封面生成和发布。"
+  default_prompt: "Use $wechat-media-workflow to plan, write, illustrate, and publish a WeChat Official Account article."
+  brand_color: "#0EA5E9"
