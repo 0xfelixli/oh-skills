@@ -100,6 +100,10 @@ Create browser-ready HTML slide decks that can be opened, shared, and presented 
 
 Use the Conduit CLI to manage Phabricator / Phorge tasks, diffs, repositories, and projects.
 
+### 6) `threat-scout`
+
+Run entrypoint-based security audits that produce evidence-backed findings, PoCs, and durable audit artifacts.
+
 ## Notes
 
 - This repository is mainly a personal collection of useful skills, not a traditional application project.
