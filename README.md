@@ -1,30 +1,30 @@
 # oh-skills
 
-我觉得好用的一些 agent skills，以及安装到 Claude Code / Codex 的方法。
+A small collection of agent skills I find useful, plus installation commands for Claude Code and Codex.
 
 ## Usage
 
-从这个仓库安装某个 skill：
+Install a skill from this repository:
 
 ```bash
 npx skills add 0xfelixli/oh-skills@<skill-name> -a claude -a codex
 ```
 
-例如：
+Examples:
 
 ```bash
 npx skills add 0xfelixli/oh-skills@post-to-wechat -a claude -a codex
 npx skills add 0xfelixli/oh-skills@browser-deck -a claude -a codex
 ```
 
-只装到某一个 agent：
+Install for only one agent:
 
 ```bash
 npx skills add 0xfelixli/oh-skills@post-to-wechat -a claude
 npx skills add 0xfelixli/oh-skills@post-to-wechat -a codex
 ```
 
-如果已经 clone 了本仓库，也可以用本地路径安装：
+If you have cloned this repository, you can also install from a local path:
 
 ```bash
 npx skills add ./skills/post-to-wechat -a claude -a codex
@@ -35,44 +35,25 @@ npx skills add ./skills/browser-deck -a claude -a codex
 
 ### 1) `post-to-wechat`
 
-Post content to WeChat Official Account (微信公众号), supporting:
-
-- Article posting (文章): Markdown / HTML / plain text
-- Image-text posting (贴图/图文)
-- API publish and browser publish modes
-
-Path: `skills/post-to-wechat/`
-
-Main entry docs:
-
-- `skills/post-to-wechat/SKILL.md`
-- `skills/post-to-wechat/references/`
+Publish Markdown, HTML, or image content to WeChat Official Account, with API and browser-assisted publishing modes.
 
 ### 2) `wechat-cover-image`
 
-Generate finished WeChat cover images (公众号封面图成品), default size `900x383`, with brand label and title-safe layout.
-
-Path: `skills/wechat-cover-image/`
-
-Main entry docs:
-
-- `skills/wechat-cover-image/SKILL.md`
-- `skills/wechat-cover-image/references/`
+Generate WeChat Official Account cover images, defaulting to `900x383`, with brand labels and title-safe layout.
 
 ### 3) `last30days`
 
-Research what people actually say about any topic in the last 30 days across Reddit, X, YouTube, Hacker News, Polymarket, GitHub, and the web.
+Research how people discussed a topic over the last 30 days across Reddit, X, YouTube, Hacker News, GitHub, and more.
 
-Source: <https://github.com/mvanhorn/last30days-skill>
+### 4) `browser-deck`
 
-Path: `skills/last30days/`
+Create browser-ready HTML slide decks that can be opened, shared, and presented directly.
 
-Main entry docs:
+### 5) `conduit`
 
-- `skills/last30days/SKILL.md`
-- `skills/last30days/references/`
+Use the Conduit CLI to manage Phabricator / Phorge tasks, diffs, repositories, and projects.
 
 ## Notes
 
-- 本仓库主要是个人常用 skills 的整理，不是传统应用项目。
+- This repository is mainly a personal collection of useful skills, not a traditional application project.
 - Local runtime artifacts like `.env`, `node_modules`, `.DS_Store` should not be committed.
