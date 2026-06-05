@@ -1,113 +1,118 @@
 ---
 name: duanzi-writer
-description: "Write Chinese social-media jokes, punchy observations, and short comedic posts. Use when the user asks for 段子, 搞笑文案, 社交媒体段子, X/微博/朋友圈段子, 吐槽, 玩梗, or wants a funny short post about a product, tool, workflow, AI agent, developer life, startup, or internet culture."
+description: "Write Chinese social-media jokes, punchy observations, roast-style posts, and short comedic copy. Use when the user asks for 段子, 搞笑文案, 社交媒体段子, X/微博/朋友圈/即刻发文, 吐槽, 玩梗, 整活, or wants a funny short post about AI tools, agents, skills, developer life, products, startup work, or internet culture."
 ---
 
 # Duanzi Writer
 
-Use this skill to write short Chinese social-media jokes with a clear setup, a turn, and a punchline. The output should feel like something a real person would post, not branded copy or stand-up homework.
+写中文社交媒体段子。目标是“像人发的”，不是广告语、脱口秀稿、公众号开头，或者解释笑点的小作文。
 
-## Defaults
+## Output Contract
 
-- Language: Chinese unless the user requests another language.
-- Length: 1-5 short lines.
-- Surface: X / 微博 / 即刻 / 朋友圈 style.
-- Tone: dry, sharp, slightly self-mocking, internet-native.
-- Topic bias: AI tools, agents, skills, developer workflow, product building, startup life, and daily work absurdity.
-- Output: the finished post only, unless the user asks for variants or notes.
+- 默认中文。
+- 默认 1-5 行，每行尽量短。
+- 默认适合 X / 微博 / 即刻 / 朋友圈。
+- 默认语气：冷、准、有点自嘲，不卖力搞笑。
+- 除非用户要求解释、评审或多版本，只输出成品段子。
+- 用户只给一个主题时，直接写，不要追问。
 
 ## Workflow
 
-1. Identify the object being joked about: product, role, workflow, habit, or social phenomenon.
-2. Find the contradiction: what people say vs what actually happens, expectation vs reality, tool promise vs human behavior.
-3. Pick one comedic shape:
-   - **Before / after**: "以前...现在..."
-   - **Fake seriousness**: over-explain a tiny thing like it is a major system design decision.
-   - **Role reversal**: tool becomes the manager, user becomes the intern.
-   - **Truth disguised as complaint**: a joke that is funny because it is too accurate.
-   - **Escalation**: each line gets more specific until the last line snaps.
-4. Write the shortest version that still lands.
-5. Remove generic AI phrasing, slogans, and explainer language.
+先在心里做，不要把过程输出：
 
-## Output Shapes
+1. 抓对象：工具、职业、工作流、习惯、产品承诺、互联网现象。
+2. 找矛盾：说法 vs 实际、承诺 vs 体感、效率 vs 新麻烦、人控制工具 vs 工具管人。
+3. 写 2-3 个候选方向，选最具体、最短、最后一句最狠的那个。
+4. 删掉解释、铺垫、口号和营销词。
 
-### Single Punchline
+好段子的核心不是“好笑词”，而是一个准确到刺痛的观察。
 
-```text
-<setup>
-<turn>
-<punchline>
-```
+## Comedic Shapes
+
+优先用这些结构，按主题自然选择。
 
 ### Before / After
 
 ```text
-以前：<old behavior>
-现在：<new behavior>
+以前：<人的旧麻烦>
+现在：<工具带来的新麻烦>
 
-<punchline>
+<最后一句反转>
+```
+
+### Role Reversal
+
+```text
+我以为我是来指挥<工具>的。
+后来发现<工具>比较像我的直属领导。
 ```
 
 ### Fake Definition
 
 ```text
-<term>：不是<obvious definition>。
-是<funny but accurate definition>。
+<词>：不是<表面定义>。
+是<更真实、更具体、更尴尬的定义>。
 ```
 
-### Mini Thread
-
-Use only when the user asks for a longer post:
+### False Upgrade
 
 ```text
-1. <first beat>
-2. <second beat>
-3. <third beat>
+<事情>终于升级了。
 
-<final punchline>
+以前是<低级痛苦>，现在是<高级痛苦>。
 ```
+
+### Escalation
+
+```text
+第一步：<正常>
+第二步：<有点不对>
+第三步：<彻底暴露荒谬>
+```
+
+## Topic Defaults
+
+### AI / Agent / Skills
+
+- 好靶子：过度委托、提示词负罪感、agent 反过来问需求、工具比用户更自律、自动化制造新待办。
+- 不要编造具体能力。没有事实依据时，写使用体感和人类行为。
+- 不要写成“AI 赋能效率提升”。段子要写“效率提升之后，人开始欠 AI 作业”。
+
+### Developer / Startup Work
+
+- 好靶子：需求不清、开会、重构、上线前信仰、工具链、TODO、技术债、PR review。
+- 用具体动作代替抽象词：不要只写“协作成本”，写“为了省一条消息，开了半小时会”。
+
+### Products / Tools
+
+- 写用户体感，不写功能列表。
+- 把卖点翻译成人的行为变化。
+- 可以轻微吐槽，但不要损害不确定事实。
 
 ## Quality Bar
 
-A good duanzi should:
+好的段子应该：
 
-- make one clear joke, not three half-jokes
-- include one concrete detail from the topic
-- sound postable without explaining why it is funny
-- have a final line that changes how the earlier lines read
-- be easy to read aloud
+- 只打一个笑点，不堆三个半成品笑点。
+- 至少有一个具体细节。
+- 最后一行最强，最好能反过来解释前面的铺垫。
+- 读出来顺，不像翻译腔。
+- 有一点立场：不是“这个东西很有趣”，而是“这个荒谬点我看见了”。
 
-Avoid:
+## Avoid
 
-- "笑死", "太真实了", "狠狠共鸣了" unless used ironically and sparingly
-- hashtags unless the user asks
-- emoji unless the user asks
-- long setup paragraphs
-- generic contrasts like "提升效率 / 解放双手"
-- punchlines that only repeat the premise
-- moralizing, advice, or marketing CTA
-
-## Topic Handling
-
-For products or tools:
-
-- Joke about the user's lived experience, not the feature list.
-- Prefer "it made me behave differently" over "it supports X".
-- If facts are unclear, avoid factual claims and joke about the pattern.
-
-For AI / agents / skills:
-
-- Good targets: over-delegation, prompt guilt, agents asking clarifying questions, tools becoming more disciplined than users, "automation" creating new work.
-- Do not imply real product capabilities unless the user provides them.
-
-For workplace topics:
-
-- Keep it relatable and specific.
-- Avoid punching down at individuals, protected groups, or private people.
+- 不要用“笑死”“太真实了”“狠狠共鸣了”当拐杖。
+- 不要 hashtag，除非用户要求。
+- 不要 emoji，除非用户要求。
+- 不要长铺垫。
+- 不要“提升效率 / 解放双手 / 重新定义 / 生产力革命”。
+- 不要解释“这个段子的笑点是”。
+- 不要道德总结、人生建议、营销 CTA。
+- 不要攻击私人个体、弱势群体或受保护身份。
 
 ## Variant Mode
 
-If the user asks for multiple options, provide 3-5 variants. Make each variant structurally different, not just reworded:
+用户要“多来几个”“几个版本”“选一个”时，给 3-5 个。每个版本必须换结构，不能只是换词：
 
 ```text
 1.
@@ -120,12 +125,35 @@ If the user asks for multiple options, provide 3-5 variants. Make each variant s
 ...
 ```
 
+## Calibration Examples
+
+Use these as rhythm references, not templates to repeat.
+
+```text
+以前写需求，是我折磨 AI。
+现在装了 Skills，是 AI 先折磨我：
+"这个目标不够明确。"
+```
+
+```text
+自动化最神奇的地方：
+它真的帮我省了很多时间。
+
+然后我把省下来的时间都拿去维护自动化了。
+```
+
+```text
+Agent 不是来替我工作的。
+
+它是来证明：我以前不是没时间，是没把话说清楚。
+```
+
 ## Final Check
 
-Before responding, verify:
+发送前检查：
 
-- no em dash or en dash
-- no explanatory preface
-- no "这个段子的笑点是"
-- no empty hype words
-- the last line is the strongest line
+- 没有 em dash 或 en dash。
+- 没有解释性前言。
+- 没有空泛热词。
+- 没有把段子写成广告。
+- 最后一行是最强的一行。
