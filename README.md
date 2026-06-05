@@ -40,6 +40,19 @@ Main entry docs:
 - `skills/wechat-cover-image/SKILL.md`
 - `skills/wechat-cover-image/references/`
 
+### 3) `last30days`
+
+Research what people actually say about any topic in the last 30 days across Reddit, X, YouTube, Hacker News, Polymarket, GitHub, and the web.
+
+Source: <https://github.com/mvanhorn/last30days-skill>
+
+Path: `skills/last30days/`
+
+Main entry docs:
+
+- `skills/last30days/SKILL.md`
+- `skills/last30days/references/`
+
 ## Repository Layout
 
 - `skills/`: skill packages used by agents
