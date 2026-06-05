@@ -3,7 +3,7 @@ name: browser-deck
 version: 1.0.0
 description: |
   生成浏览器可直接放映的幻灯片 HTML。双模式：默认文档浏览（滚动），
-  toolbar 按钮或幻灯片 hover 按钮切换全屏逐张放映。无需构建，打开即用。
+  toolbar 按钮或幻灯片 hover 按钮切换逐张放映；F 键可选切换浏览器全屏。无需构建，打开即用。
   适合发链接分享，与 kami slides-weasy（PDF 导出）不同。
   Use when: 用户说"PPT/幻灯片/可以放映/发链接给别人看/直接打开能翻页/browser deck"。
 allowed-tools:

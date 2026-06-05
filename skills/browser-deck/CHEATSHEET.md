@@ -36,8 +36,8 @@
 |---|---|
 | h1（封面） | `clamp(21pt, 4.4cqw, 44pt)` |
 | h2（页标题） | `clamp(15pt, 2.55cqw, 26pt)` |
-| .lead | `clamp(10.5pt, 1.44cqw, 14pt)` |
-| .fi（finding） | `clamp(9pt, 1.15cqw, 11pt)` |
+| .lead | `clamp(12pt, 1.7cqw, 17pt)` |
+| .fi（finding） | `clamp(11pt, 1.4cqw, 14pt)` |
 | .pg（页码） | `clamp(7pt, 0.92cqw, 9.5pt)` |
 
 ## 内容规则（三条核心）

@@ -84,8 +84,8 @@ body.pres .slide.active { display: flex; animation: fadeIn 0.2s ease; }
 h1    { font-size: clamp(21pt, 4.4cqw,  44pt); }
 h2    { font-size: clamp(15pt, 2.55cqw, 26pt); }
 h3    { font-size: clamp(10pt, 1.38cqw, 14pt); }
-.lead { font-size: clamp(10.5pt, 1.44cqw, 14pt); }
-.fi   { font-size: clamp(9pt,   1.15cqw, 11pt); }
+.lead { font-size: clamp(12pt, 1.7cqw, 17pt); }
+.fi   { font-size: clamp(11pt, 1.4cqw, 14pt); }
 .pg   { font-size: clamp(7pt,   0.92cqw, 9.5pt); }
 ```
 
@@ -116,7 +116,7 @@ function startPres() {
   document.body.classList.add('pres');
   slides[cur].classList.add('active');
   updateUI();
-  // 不在 startPres 里强制全屏；用户通过 #btn-fs 或 F 键自行触发
+  // 不在 startPres 里强制全屏；用户通过 F 键自行触发
 }
 
 function exitPres() {
@@ -131,7 +131,7 @@ function presFromSlide(btn) {
   startPres();
 }
 
-// 全屏 toggle（#btn-fs 和 F 键共用）
+// 全屏 toggle（保留给 F 键）
 function toggleFullscreen() {
   if (!document.fullscreenElement) {
     document.documentElement.requestFullscreen().catch(() => {});
@@ -140,19 +140,29 @@ function toggleFullscreen() {
   }
 }
 
-// 同步全屏按钮图标
-const FS_EXPAND   = '<polyline points="5,1 1,1 1,5"/>...'; // 4 个角展开箭头
-const FS_COMPRESS = '<polyline points="1,5 5,5 5,1"/>...'; // 4 个角收缩箭头
-document.addEventListener('fullscreenchange', () => {
-  document.getElementById('fs-icon').innerHTML =
-    document.fullscreenElement ? FS_COMPRESS : FS_EXPAND;
-});
+function updateUI() {
+  navP.disabled = cur === 0;
+  navN.disabled = cur === total - 1;
+  prog.style.width = ((cur + 1) / total * 100) + '%';
+  const cover = slides[cur].classList.contains('s-cover');
+  prog.style.background = cover ? 'rgba(255,255,255,0.35)' : 'var(--brand)';
+  const btnExit = document.getElementById('btn-exit');
+  if (cover) {
+    btnExit.style.background = 'rgba(255,255,255,0.1)';
+    btnExit.style.color = 'rgba(255,255,255,0.82)';
+    btnExit.style.borderColor = 'rgba(255,255,255,0.2)';
+  } else {
+    btnExit.style.background = 'rgba(0,0,0,0.08)';
+    btnExit.style.color = 'rgba(60,58,52,0.7)';
+    btnExit.style.borderColor = 'rgba(0,0,0,0.12)';
+  }
+}
 
 // 点击翻页（放映模式），排除控件
 document.addEventListener('click', e => {
   if (!document.body.classList.contains('pres')) return;
   if (e.target.closest('.nav') || e.target.closest('#btn-exit') ||
-      e.target.closest('#btn-fs') || e.target.closest('.slide-play')) return;
+      e.target.closest('.slide-play')) return;
   go(e.clientX >= window.innerWidth / 2 ? 1 : -1);
 });
 ```
@@ -161,26 +171,32 @@ document.addEventListener('click', e => {
 
 ---
 
-## 全屏按钮 CSS
+## 放映退出按钮 CSS
 
-`#btn-fs` 放在 `#btn-exit` 左侧，两者共享样式基础，仅 `right` 和尺寸不同：
+放映模式只显示右上角退出图标按钮；全屏切换不提供可见按钮，仅保留 `F` 快捷键。
+退出按钮颜色由 `updateUI()` 按封面/内容页动态调整：
 
 ```css
-#btn-exit, #btn-fs {
-  position:fixed; top:10px; z-index:900;
-  background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.85);
+#btn-exit {
+  position:fixed; top:12px; z-index:900;
+  background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.82);
   border:1px solid rgba(255,255,255,0.2); border-radius:5px;
   cursor:pointer; display:none; align-items:center; justify-content:center;
   backdrop-filter:blur(4px); transition:background 0.15s;
 }
-#btn-exit:hover, #btn-fs:hover { background:rgba(255,255,255,0.18); }
-#btn-exit { right:16px; padding:7px 14px; font-size:12px; font-family:var(--serif); gap:5px; }
-#btn-fs   { right:110px; width:34px; height:34px; }
+#btn-exit:hover { background:rgba(255,255,255,0.2); }
+#btn-exit { right:16px; width:34px; height:34px; padding:0; }
 body.pres #btn-exit { display:flex; }
-body.pres #btn-fs   { display:flex; }
 ```
 
-图标用两组 `<polyline>` SVG：展开（4 角向外）和压缩（4 角向内），通过 `fullscreenchange` 事件切换 `innerHTML`。
+纯图标按钮必须带 `title` 和 `aria-label`：
+
+```html
+<button id="btn-exit" onclick="exitPres()" title="退出放映" aria-label="退出放映">...</button>
+<button class="nav" id="nav-p" onclick="go(-1)" title="上一张" aria-label="上一张">&#8592;</button>
+<button class="nav" id="nav-n" onclick="go(1)" title="下一张" aria-label="下一张">&#8594;</button>
+<button class="slide-play" onclick="presFromSlide(this)" title="从本页开始放映" aria-label="从本页开始放映">...</button>
+```
 
 ---
 

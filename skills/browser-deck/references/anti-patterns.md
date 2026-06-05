@@ -10,7 +10,7 @@ browser-deck 生成过程中发现的典型错误。每条都有根因说明，�
 |---|---|---|---|
 | 1 | 默认打开就是放映模式 | `html, body { overflow: hidden }` 放在全局，打开文件直接进全屏 | `overflow:hidden` 只能放在 `body.pres` 选择器下；`position:fixed` 的 `.slide` 只在 `body.pres .slide` 下 |
 | 2 | 放映时背景露出页面色 | `body.pres` 没有处理 `.deck` 的 max-width | 加 `body.pres .deck { max-width:none; padding:0; gap:0; }` |
-| 3 | 点放映自动强制全屏 | `startPres()` 里调用 `requestFullscreen()`，用户不一定想全屏 | `startPres()` 不调用 `requestFullscreen`；改用右上角 `#btn-fs` 按钮 + `F` 键让用户主动触发；`exitPres()` 应同时 `exitFullscreen`（若当前在全屏） |
+| 3 | 点放映自动强制全屏 | `startPres()` 里调用 `requestFullscreen()`，用户不一定想全屏 | `startPres()` 不调用 `requestFullscreen`；保留 `F` 键让用户主动触发；`exitPres()` 应同时 `exitFullscreen`（若当前在全屏） |
 
 ---
 
