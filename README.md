@@ -4,32 +4,79 @@ A small collection of agent skills I find useful, plus installation commands for
 
 ## Usage
 
+### Install
+
 Install a skill from this repository:
 
 ```bash
-npx skills add 0xfelixli/oh-skills@<skill-name> -a claude -a codex
+npx skills add 0xfelixli/oh-skills@<skill-name> -a claude-code -a codex
 ```
 
 Examples:
 
 ```bash
-npx skills add 0xfelixli/oh-skills@post-to-wechat -a claude -a codex
-npx skills add 0xfelixli/oh-skills@browser-deck -a claude -a codex
+npx skills add 0xfelixli/oh-skills@post-to-wechat -a claude-code -a codex
+npx skills add 0xfelixli/oh-skills@browser-deck -a claude-code -a codex
 ```
 
 Install for only one agent:
 
 ```bash
-npx skills add 0xfelixli/oh-skills@post-to-wechat -a claude
+npx skills add 0xfelixli/oh-skills@post-to-wechat -a claude-code
 npx skills add 0xfelixli/oh-skills@post-to-wechat -a codex
 ```
 
 If you have cloned this repository, you can also install from a local path:
 
 ```bash
-npx skills add ./skills/post-to-wechat -a claude -a codex
-npx skills add ./skills/browser-deck -a claude -a codex
+npx skills add ./skills/post-to-wechat -a claude-code -a codex
+npx skills add ./skills/browser-deck -a claude-code -a codex
 ```
+
+### Update
+
+If the skill was installed with `npx skills add`, update installed skills with:
+
+```bash
+npx skills update
+```
+
+If you installed from a local clone, pull the latest repo first, then install the skill again:
+
+```bash
+git pull
+npx skills add ./skills/browser-deck -a claude-code -a codex
+```
+
+### Uninstall
+
+If the skill was installed with `npx skills add`, remove it with:
+
+```bash
+npx skills remove browser-deck
+```
+
+Remove it from a specific agent:
+
+```bash
+npx skills remove browser-deck -a claude-code
+npx skills remove browser-deck -a codex
+```
+
+If the skill was copied manually, remove the installed skill directory instead:
+
+```bash
+rm -rf ~/.agents/skills/browser-deck
+rm -rf ~/.codex/skills/browser-deck
+```
+
+If you only want to remove a skill from this repository checkout:
+
+```bash
+rm -rf skills/browser-deck
+```
+
+Restart Claude Code or Codex after installing, updating, or uninstalling skills.
 
 ## Skills
 
