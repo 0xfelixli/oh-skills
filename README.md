@@ -1,18 +1,37 @@
 # oh-skills
 
-Agent-first skill collection for Claude Code style runtimes.
+我觉得好用的一些 agent skills，以及安装到 Claude Code / Codex 的方法。
 
-This repository contains reusable `skills/*` bundles that help agents complete concrete tasks.
+## Usage
 
-## Naming Convention
+从这个仓库安装某个 skill：
 
-To keep naming consistent:
+```bash
+npx skills add 0xfelixli/oh-skills@<skill-name> -a claude -a codex
+```
 
-- Folder name: `verb-target` (e.g. `post-to-wechat`)
-- Skill `name` in `SKILL.md`: same as folder name
-- README display name: same as folder name
+例如：
 
-## Included Skills
+```bash
+npx skills add 0xfelixli/oh-skills@post-to-wechat -a claude -a codex
+npx skills add 0xfelixli/oh-skills@browser-deck -a claude -a codex
+```
+
+只装到某一个 agent：
+
+```bash
+npx skills add 0xfelixli/oh-skills@post-to-wechat -a claude
+npx skills add 0xfelixli/oh-skills@post-to-wechat -a codex
+```
+
+如果已经 clone 了本仓库，也可以用本地路径安装：
+
+```bash
+npx skills add ./skills/post-to-wechat -a claude -a codex
+npx skills add ./skills/browser-deck -a claude -a codex
+```
+
+## Skills
 
 ### 1) `post-to-wechat`
 
@@ -53,13 +72,7 @@ Main entry docs:
 - `skills/last30days/SKILL.md`
 - `skills/last30days/references/`
 
-## Repository Layout
-
-- `skills/`: skill packages used by agents
-- `docs/`: design/spec/planning notes
-
 ## Notes
 
-- This repo is for **agent skills**, not a traditional app package.
-- Old `skills/wechat-cover/` has been removed.
+- 本仓库主要是个人常用 skills 的整理，不是传统应用项目。
 - Local runtime artifacts like `.env`, `node_modules`, `.DS_Store` should not be committed.
