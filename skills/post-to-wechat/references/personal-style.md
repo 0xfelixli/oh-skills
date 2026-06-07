@@ -21,14 +21,17 @@ The `zhiyuan` theme should read as a technical-column version of the built-in `d
 
 - grayscale H2 blocks instead of bright brand colors
 - standard H3 left rules
-- light blockquotes
+- short-label H2 blocks instead of full-width bars
+- light blockquotes with a 3px muted gray rule
 - light code blocks
 - comfortable paragraph spacing
 - Songti for Chinese body prose, H2, H3, lists, and blockquotes
 - system sans-serif for paragraphs that contain long URLs or inline code, to protect mixed Chinese-English readability
+- naked URL paragraphs use smaller muted system text with `word-break: break-all`
 - monospace for code and inline code
 - WeChat blue links (`#576b95`) without button, card, or underline treatment
 - strong emphasis in medium neutral gray (`#4b5563`), never pale disabled gray
+- standalone strong paragraphs get slightly larger vertical spacing than inline emphasis
 - footnotes and utility text in muted gray (`#8a8f98`) and system sans-serif
 - no decorative bubbles, badges, heavy editorial rules, dark code panels, or large rounded cards
 

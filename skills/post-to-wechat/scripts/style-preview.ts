@@ -159,7 +159,7 @@ async function main(): Promise<void> {
   const outputDir = path.resolve(options.outputDir || path.join(process.cwd(), "post-to-wechat", "previews", slug));
   fs.mkdirSync(outputDir, { recursive: true });
 
-  const themes = options.gallery ? THEMES : [options.theme || "default"];
+  const themes = options.gallery ? THEMES : [options.theme || "zhiyuan"];
   const previews: PreviewResult[] = [];
 
   for (const theme of themes) {

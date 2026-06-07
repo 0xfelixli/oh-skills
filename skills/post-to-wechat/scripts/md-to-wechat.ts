@@ -151,15 +151,21 @@ function applyZhiyuanArticleStyle(html: string): string {
       ["line-height", "1.82"],
       ["letter-spacing", "0.02em"],
       ["color", ink],
-      ["margin", "1.15em 8px"],
+      ["margin-top", "1.15em !important"],
+      ["margin-bottom", "1.15em !important"],
+      ["margin-left", "8px"],
+      ["margin-right", "8px"],
     ])}${suffix}`,
   );
 
   next = next.replace(
-    /(<p\b[^>]*class="[^"]*\bp\b[^"]*"[^>]*style=")([^"]*)("(?:(?!<\/p>)[\s\S])*(?:https?:\/\/|<code\b)(?:(?!<\/p>)[\s\S])*<\/p>)/gi,
+    /(<p\b[^>]*class="[^"]*\bp\b[^"]*"[^>]*style=")([^"]*)("(?:(?!<\/p>)[\s\S])*(?:<code\b|(?:^|[>\s])https?:\/\/)(?:(?!<\/p>)[\s\S])*<\/p>)/gi,
     (_m, prefix, style, suffix) => `${prefix}${applyStyle(style, [
       ["font-family", bodyFont],
+      ["font-size", suffix.includes("https://") || suffix.includes("http://") ? "14px" : "15px"],
       ["letter-spacing", "0"],
+      ["color", suffix.includes("https://") || suffix.includes("http://") ? "#6f7782" : ink],
+      ["word-break", suffix.includes("https://") || suffix.includes("http://") ? "break-all" : "normal"],
     ])}${suffix}`,
   );
 
@@ -178,8 +184,8 @@ function applyZhiyuanArticleStyle(html: string): string {
   next = next.replace(
     /(<h2\b[^>]*style=")([^"]*)(")/gi,
     (_m, prefix, style, suffix) => `${prefix}${applyStyle(style, [
-      ["display", "block"],
-      ["padding", "0.2em 0.8em"],
+      ["display", "inline-block"],
+      ["padding", "0.16em 0.72em"],
       ["margin", "2.8em 0 1.4em !important"],
       ["color", "#ffffff"],
       ["background", accent],
@@ -224,10 +230,10 @@ function applyZhiyuanArticleStyle(html: string): string {
     /(<blockquote\b[^>]*style=")([^"]*)(")/gi,
     (_m, prefix, style, suffix) => `${prefix}${applyStyle(style, [
       ["margin", "1.5em 0"],
-      ["padding", "0.95em 1em"],
-      ["border-left", `4px solid ${accent}`],
+      ["padding", "0.85em 1em"],
+      ["border-left", `3px solid ${muted}`],
       ["border-radius", "4px"],
-      ["background", soft],
+      ["background", "#f8f8f8"],
       ["color", ink],
       ["font-family", serifFont],
       ["font-size", "15px"],
@@ -242,6 +248,29 @@ function applyZhiyuanArticleStyle(html: string): string {
       ["letter-spacing", "0.02em"],
       ["margin", "0 !important"],
     ])}${suffix}`,
+  );
+
+  next = next.replace(
+    /(<blockquote\b[^>]*>)([\s\S]*?)(<\/blockquote>)/gi,
+    (_m, open, inner, close) => `${open}${inner.replace(
+      /(<p\b[^>]*style=")([^"]*)(")/gi,
+      (_p, prefix, style, suffix) => `${prefix}${applyStyle(style, [
+        ["font-family", serifFont],
+        ["letter-spacing", "0.02em"],
+        ["margin", "0.45em 0 !important"],
+      ])}${suffix}`,
+    )}${close}`,
+  );
+
+  next = next.replace(
+    /(<p\b[^>]*class="[^"]*\bp\b[^"]*"[^>]*style="[^"]*"[^>]*>\s*<strong\b[^>]*>[\s\S]*?<\/strong>\s*<\/p>)/gi,
+    (match) => match.replace(
+      /(<p\b[^>]*style=")([^"]*)(")/i,
+      (_m, prefix, style, suffix) => `${prefix}${applyStyle(style, [
+        ["margin-top", "1.55em !important"],
+        ["margin-bottom", "1.35em !important"],
+      ])}${suffix}`,
+    ),
   );
 
   next = next.replace(
