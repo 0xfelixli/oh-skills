@@ -190,7 +190,8 @@ Use `post-to-wechat`. Run dry-run first:
 ```bash
 bun skills/post-to-wechat/scripts/wechat-api.ts \
   "<article.md>" \
-  --theme default \
+  --theme zhiyuan \
+  --color gray \
   --author "智元安全" \
   --title "<title>" \
   --summary "<summary>" \

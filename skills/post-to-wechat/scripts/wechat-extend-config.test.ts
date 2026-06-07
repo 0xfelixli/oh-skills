@@ -5,7 +5,7 @@ import path from "node:path";
 import process from "node:process";
 import test, { type TestContext } from "node:test";
 
-import { loadCredentials } from "./wechat-extend-config.ts";
+import { loadCredentials, parseWechatExtend } from "./wechat-extend-config.ts";
 
 function useWechatEnv(
   t: TestContext,
@@ -128,4 +128,22 @@ test("loadCredentials reads credentials from the skill-local .env", async (t) =>
   assert.equal(credentials.appId, "skill-app-id");
   assert.equal(credentials.appSecret, "skill-app-secret");
   assert.equal(credentials.source, "<skill>/.env");
+});
+
+test("parseWechatExtend reads personal style preview preferences", () => {
+  const config = parseWechatExtend(`
+default_theme: zhiyuan
+default_color: gray
+default_author: 智元安全
+preview_before_publish: 1
+default_style_gallery: true
+need_open_comment: 1
+only_fans_can_comment: 0
+`);
+
+  assert.equal(config.default_author, "智元安全");
+  assert.equal(config.default_theme, "zhiyuan");
+  assert.equal(config.default_color, "gray");
+  assert.equal(config.preview_before_publish, 1);
+  assert.equal(config.default_style_gallery, 1);
 });

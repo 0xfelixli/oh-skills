@@ -11,6 +11,12 @@ ${BUN_X} ./scripts/wechat-article.ts --markdown article.md
 # With theme
 ${BUN_X} ./scripts/wechat-article.ts --markdown article.md --theme grace
 
+# Preview theme before posting
+${BUN_X} ./scripts/style-preview.ts article.md --theme zhiyuan
+
+# Compare all built-in themes
+${BUN_X} ./scripts/style-preview.ts article.md --gallery --color gray
+
 # Disable bottom citations for ordinary external links
 ${BUN_X} ./scripts/wechat-article.ts --markdown article.md --no-cite
 
@@ -23,13 +29,29 @@ ${BUN_X} ./scripts/wechat-article.ts --markdown article.md --author "作者名" 
 | Parameter | Description |
 |-----------|-------------|
 | `--markdown <path>` | Markdown file to convert and post |
-| `--theme <name>` | Theme: default, grace, simple, modern |
+| `--theme <name>` | Theme: zhiyuan, default, grace, simple, modern |
 | `--no-cite` | Keep ordinary external links inline instead of converting them to bottom citations |
 | `--title <text>` | Override title (auto-extracted from markdown) |
 | `--author <name>` | Author name |
 | `--summary <text>` | Article summary |
 | `--html <path>` | Pre-rendered HTML file (alternative to markdown) |
 | `--profile <dir>` | Chrome profile directory |
+
+## Style Preview
+
+For Markdown input, generate a stable local HTML preview before publishing:
+
+```bash
+${BUN_X} ./scripts/style-preview.ts article.md --theme zhiyuan
+```
+
+To compare all built-in themes:
+
+```bash
+${BUN_X} ./scripts/style-preview.ts article.md --gallery --color gray
+```
+
+Preview files are saved to `post-to-wechat/previews/<article-slug>/`.
 
 ## Markdown Format
 
@@ -76,6 +98,7 @@ Default typography for generated article HTML uses serif Chinese fonts with body
 |--------|---------|
 | `wechat-article.ts` | Main article publishing script |
 | `md-to-wechat.ts` | Markdown to HTML with placeholders |
+| `style-preview.ts` | Stable local HTML previews and theme gallery |
 | `md/render.ts` | Markdown rendering with themes |
 
 ## Example Session

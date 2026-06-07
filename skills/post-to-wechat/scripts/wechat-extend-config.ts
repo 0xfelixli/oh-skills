@@ -20,6 +20,8 @@ export interface WechatExtendConfig {
   default_color?: string;
   default_publish_method?: string;
   default_author?: string;
+  preview_before_publish?: number;
+  default_style_gallery?: number;
   need_open_comment?: number;
   only_fans_can_comment?: number;
   chrome_profile_path?: string;
@@ -31,6 +33,8 @@ export interface ResolvedAccount {
   alias?: string;
   default_publish_method?: string;
   default_author?: string;
+  preview_before_publish?: number;
+  default_style_gallery?: number;
   need_open_comment: number;
   only_fans_can_comment: number;
   app_id?: string;
@@ -46,7 +50,7 @@ function toBool01(v: string): number {
   return v === "1" || v === "true" ? 1 : 0;
 }
 
-function parseWechatExtend(content: string): WechatExtendConfig {
+export function parseWechatExtend(content: string): WechatExtendConfig {
   const config: WechatExtendConfig = {};
   const lines = content.split("\n");
   let inAccounts = false;
@@ -103,6 +107,8 @@ function parseWechatExtend(content: string): WechatExtendConfig {
       case "default_color": config.default_color = val; break;
       case "default_publish_method": config.default_publish_method = val; break;
       case "default_author": config.default_author = val; break;
+      case "preview_before_publish": config.preview_before_publish = toBool01(val); break;
+      case "default_style_gallery": config.default_style_gallery = toBool01(val); break;
       case "need_open_comment": config.need_open_comment = toBool01(val); break;
       case "only_fans_can_comment": config.only_fans_can_comment = toBool01(val); break;
       case "chrome_profile_path": config.chrome_profile_path = val; break;
@@ -154,6 +160,8 @@ export function resolveAccount(config: WechatExtendConfig, alias?: string): Reso
     alias: acct?.alias,
     default_publish_method: acct?.default_publish_method ?? config.default_publish_method,
     default_author: acct?.default_author ?? config.default_author,
+    preview_before_publish: config.preview_before_publish,
+    default_style_gallery: config.default_style_gallery,
     need_open_comment: acct?.need_open_comment ?? config.need_open_comment ?? 1,
     only_fans_can_comment: acct?.only_fans_can_comment ?? config.only_fans_can_comment ?? 0,
     app_id: acct?.app_id,

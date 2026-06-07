@@ -2,6 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import process from "node:process";
+import { fileURLToPath } from "node:url";
 
 import {
   cleanSummaryText,
@@ -30,14 +31,16 @@ interface ParsedResult {
   contentImages: ImageInfo[];
 }
 
+function setCssDeclaration(style: string, prop: string, value: string): string {
+  const normalized = style.trim();
+  const removed = normalized.replace(new RegExp(`${prop}\\s*:[^;]*;?`, "gi"), "").trim();
+  const base = removed.replace(/;+\s*$/g, "");
+  return `${base}${base ? "; " : ""}${prop}: ${value};`;
+}
+
 function applyWechatTypography(html: string): string {
   const serifFont = "'Source Han Serif SC','Noto Serif SC','Songti SC','STSong','SimSun',serif";
-  const setCss = (style: string, prop: string, value: string): string => {
-    const normalized = style.trim();
-    const removed = normalized.replace(new RegExp(`${prop}\\s*:[^;]*;?`, "gi"), "").trim();
-    const base = removed.replace(/;+\s*$/g, "");
-    return `${base}${base ? "; " : ""}${prop}: ${value};`;
-  };
+  const setCss = setCssDeclaration;
 
   const withContainer = html.replace(
     /(<section[^>]*class="[^"]*\bcontainer\b[^"]*"[^>]*style=")([^"]*)(")/gi,
@@ -100,6 +103,235 @@ function applyWechatTypography(html: string): string {
   );
 }
 
+function applyZhiyuanArticleStyle(html: string): string {
+  const bodyFont = "-apple-system-font,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Microsoft YaHei UI','Microsoft YaHei',Arial,sans-serif";
+  const serifFont = "'Songti SC','STSong','SimSun','Noto Serif CJK SC',serif";
+  const monoFont = "'SFMono-Regular','Menlo','Consolas','Liberation Mono',monospace";
+  const ink = "#3f3f3f";
+  const emphasis = "#4b5563";
+  const muted = "#8a8f98";
+  const border = "#d9dde3";
+  const soft = "#f7f7f7";
+  const accent = "#5f6368";
+
+  const applyStyle = (style: string, entries: Array<[string, string]>): string => (
+    entries.reduce((next, [prop, value]) => setCssDeclaration(next, prop, value), style)
+  );
+
+  let next = html.replace(/引用链接/g, "参考来源");
+
+  next = next.replace(
+    /(<body\b[^>]*\sstyle=")([^"]*)(")/gi,
+    (_m, prefix, style, suffix) => `${prefix}${applyStyle(style, [
+      ["background", "#ffffff"],
+      ["color", ink],
+      ["font-family", serifFont],
+      ["font-size", "16px"],
+      ["line-height", "1.78"],
+      ["padding", "24px"],
+    ])}${suffix}`,
+  );
+
+  next = next.replace(
+    /(<section[^>]*class="[^"]*\bcontainer\b[^"]*"[^>]*style=")([^"]*)(")/gi,
+    (_m, prefix, style, suffix) => `${prefix}${applyStyle(style, [
+      ["font-family", serifFont],
+      ["font-size", "15px"],
+      ["line-height", "1.82"],
+      ["color", ink],
+      ["background", "#ffffff"],
+    ])}${suffix}`,
+  );
+
+  next = next.replace(
+    /(<p\b[^>]*class="[^"]*\bp\b[^"]*"[^>]*style=")([^"]*)(")/gi,
+    (_m, prefix, style, suffix) => `${prefix}${applyStyle(style, [
+      ["font-family", serifFont],
+      ["font-size", "15px"],
+      ["line-height", "1.82"],
+      ["letter-spacing", "0.02em"],
+      ["color", ink],
+      ["margin", "1.15em 8px"],
+    ])}${suffix}`,
+  );
+
+  next = next.replace(
+    /(<p\b[^>]*class="[^"]*\bp\b[^"]*"[^>]*style=")([^"]*)("(?:(?!<\/p>)[\s\S])*(?:https?:\/\/|<code\b)(?:(?!<\/p>)[\s\S])*<\/p>)/gi,
+    (_m, prefix, style, suffix) => `${prefix}${applyStyle(style, [
+      ["font-family", bodyFont],
+      ["letter-spacing", "0"],
+    ])}${suffix}`,
+  );
+
+  next = next.replace(
+    /(<p\b[^>]*class="[^"]*\bfootnotes\b[^"]*"[^>]*style=")([^"]*)(")/gi,
+    (_m, prefix, style, suffix) => `${prefix}${applyStyle(style, [
+      ["font-family", bodyFont],
+      ["font-size", "13px"],
+      ["line-height", "1.7"],
+      ["letter-spacing", "0.02em"],
+      ["color", muted],
+      ["margin", "0.45em 8px !important"],
+    ])}${suffix}`,
+  );
+
+  next = next.replace(
+    /(<h2\b[^>]*style=")([^"]*)(")/gi,
+    (_m, prefix, style, suffix) => `${prefix}${applyStyle(style, [
+      ["display", "block"],
+      ["padding", "0.2em 0.8em"],
+      ["margin", "2.8em 0 1.4em !important"],
+      ["color", "#ffffff"],
+      ["background", accent],
+      ["border-radius", "2px"],
+      ["font-family", serifFont],
+      ["font-size", "17px"],
+      ["font-weight", "700"],
+      ["line-height", "1.55"],
+      ["letter-spacing", "0.02em"],
+      ["text-align", "left"],
+    ])}${suffix}`,
+  );
+
+  next = next.replace(
+    /(<h3\b[^>]*style=")([^"]*)(")/gi,
+    (_m, prefix, style, suffix) => `${prefix}${applyStyle(style, [
+      ["padding-left", "8px"],
+      ["margin", "2.2em 8px 0.9em 0 !important"],
+      ["color", ink],
+      ["background", "transparent"],
+      ["border-left", `3px solid ${accent}`],
+      ["font-family", serifFont],
+      ["font-size", "16px"],
+      ["font-weight", "700"],
+      ["line-height", "1.45"],
+    ])}${suffix}`,
+  );
+
+  next = next.replace(
+    /(<h4\b[^>]*style=")([^"]*)(")/gi,
+    (_m, prefix, style, suffix) => `${prefix}${applyStyle(style, [
+      ["margin", "2.2em 8px 0.65em"],
+      ["color", muted],
+      ["font-family", bodyFont],
+      ["font-size", "14px"],
+      ["font-weight", "700"],
+      ["letter-spacing", "0.03em"],
+    ])}${suffix}`,
+  );
+
+  next = next.replace(
+    /(<blockquote\b[^>]*style=")([^"]*)(")/gi,
+    (_m, prefix, style, suffix) => `${prefix}${applyStyle(style, [
+      ["margin", "1.5em 0"],
+      ["padding", "0.95em 1em"],
+      ["border-left", `4px solid ${accent}`],
+      ["border-radius", "4px"],
+      ["background", soft],
+      ["color", ink],
+      ["font-family", serifFont],
+      ["font-size", "15px"],
+      ["line-height", "1.8"],
+    ])}${suffix}`,
+  );
+
+  next = next.replace(
+    /(<blockquote\b[^>]*>[\s\S]*?<p\b[^>]*style=")([^"]*)(")/gi,
+    (_m, prefix, style, suffix) => `${prefix}${applyStyle(style, [
+      ["font-family", serifFont],
+      ["letter-spacing", "0.02em"],
+      ["margin", "0 !important"],
+    ])}${suffix}`,
+  );
+
+  next = next.replace(
+    /(<pre\b[^>]*style=")([^"]*)(")/gi,
+    (_m, prefix, style, suffix) => `${prefix}${applyStyle(style, [
+      ["margin", "1.35em 8px"],
+      ["background", "#fbfbfb"],
+      ["border", `1px solid ${border}`],
+      ["border-radius", "6px"],
+      ["line-height", "1.6"],
+      ["overflow-x", "scroll"],
+    ])}${suffix}`,
+  );
+
+  next = next.replace(
+    /(<code\b[^>]*style=")([^"]*)(")/gi,
+    (_m, prefix, style, suffix) => `${prefix}${applyStyle(style, [
+      ["font-family", monoFont],
+      ["font-size", "13px"],
+      ["color", "#24292f"],
+      ["background", "rgba(175, 184, 193, 0.16)"],
+      ["border-radius", "4px"],
+    ])}${suffix}`,
+  );
+
+  next = next.replace(
+    /(<pre\b[^>]*>[\s\S]*?<code\b[^>]*style=")([^"]*)(")/gi,
+    (_m, prefix, style, suffix) => `${prefix}${applyStyle(style, [
+      ["display", "block"],
+      ["padding", "0.65em 1em 1em"],
+      ["color", "#24292f"],
+      ["background", "transparent"],
+      ["font-size", "13px"],
+      ["line-height", "1.6"],
+      ["white-space", "pre-wrap"],
+      ["overflow-x", "scroll"],
+    ])}${suffix}`,
+  );
+
+  next = next.replace(
+    /(<a\b[^>]*style=")([^"]*)(")/gi,
+    (_m, prefix, style, suffix) => `${prefix}${applyStyle(style, [
+      ["color", "#576b95"],
+      ["text-decoration", "none"],
+      ["border-bottom", "0"],
+    ])}${suffix}`,
+  );
+
+  next = next.replace(
+    /(<strong\b[^>]*style=")([^"]*)(")/gi,
+    (_m, prefix, style, suffix) => `${prefix}${applyStyle(style, [
+      ["color", emphasis],
+      ["font-weight", "700"],
+    ])}${suffix}`,
+  );
+
+  next = next.replace(
+    /(<(?:ul|ol)\b[^>]*style=")([^"]*)(")/gi,
+    (_m, prefix, style, suffix) => `${prefix}${applyStyle(style, [
+      ["padding-left", "1em"],
+      ["margin", "1em 0"],
+      ["color", ink],
+    ])}${suffix}`,
+  );
+
+  next = next.replace(
+    /(<li\b[^>]*style=")([^"]*)(")/gi,
+    (_m, prefix, style, suffix) => `${prefix}${applyStyle(style, [
+      ["font-family", serifFont],
+      ["font-size", "15px"],
+      ["line-height", "1.78"],
+      ["letter-spacing", "0.02em"],
+      ["color", ink],
+      ["margin", "0.45em 8px"],
+    ])}${suffix}`,
+  );
+
+  next = next.replace(
+    /(<img\b[^>]*style=")([^"]*)(")/gi,
+    (_m, prefix, style, suffix) => `${prefix}${applyStyle(style, [
+      ["display", "block"],
+      ["width", "100%"],
+      ["margin", "1.65em auto"],
+      ["border-radius", "4px"],
+    ])}${suffix}`,
+  );
+
+  return next;
+}
+
 export async function convertMarkdown(
   markdownPath: string,
   options?: { title?: string; theme?: string; color?: string; citeStatus?: boolean },
@@ -138,14 +370,22 @@ export async function convertMarkdown(
     `[md-to-wechat] Rendering markdown with theme: ${options?.theme ?? "default"}${options?.color ? `, color: ${options.color}` : ""}, citeStatus: ${citeStatus}`,
   );
 
+  const theme = options?.theme === "zhiyuan" ? "default" : options?.theme;
+  const color = options?.theme === "zhiyuan" ? (options?.color ?? "gray") : options?.color;
+
   const { html } = await renderMarkdownDocument(rewrittenMarkdown, {
     citeStatus,
     defaultTitle: title,
     keepTitle: false,
-    primaryColor: resolveColorToken(options?.color),
-    theme: options?.theme,
+    primaryColor: resolveColorToken(color),
+    theme,
   });
-  fs.writeFileSync(htmlPath, applyWechatTypography(html), "utf-8");
+  const typedHtml = applyWechatTypography(html);
+  fs.writeFileSync(
+    htmlPath,
+    options?.theme === "zhiyuan" ? applyZhiyuanArticleStyle(typedHtml) : typedHtml,
+    "utf-8",
+  );
 
   const contentImages = await resolveContentImages(images, baseDir, tempDir, "md-to-wechat");
 
@@ -166,7 +406,7 @@ Usage:
 
 Options:
   --title <title>     Override title
-  --theme <name>      Theme name (default, grace, simple, modern)
+  --theme <name>      Theme name (zhiyuan, default, grace, simple, modern)
   --color <name|hex>  Primary color (blue, green, vermilion, etc. or hex)
   --no-cite           Disable bottom citations for ordinary external links
   --help              Show this help
@@ -187,6 +427,7 @@ Output JSON format:
 Example:
   npx -y bun md-to-wechat.ts article.md
   npx -y bun md-to-wechat.ts article.md --theme grace
+  npx -y bun md-to-wechat.ts article.md --theme zhiyuan
   npx -y bun md-to-wechat.ts article.md --theme modern --color blue
   npx -y bun md-to-wechat.ts article.md --no-cite
 `);
@@ -236,7 +477,11 @@ async function main(): Promise<void> {
   console.log(JSON.stringify(result, null, 2));
 }
 
-await main().catch((error) => {
-  console.error(`Error: ${error instanceof Error ? error.message : String(error)}`);
-  process.exit(1);
-});
+const isCli = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+
+if (isCli) {
+  await main().catch((error) => {
+    console.error(`Error: ${error instanceof Error ? error.message : String(error)}`);
+    process.exit(1);
+  });
+}

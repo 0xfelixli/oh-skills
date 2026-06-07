@@ -488,7 +488,7 @@ Options:
   --title <title>     Override title
   --author <name>     Author name (max 16 chars)
   --summary <text>    Article summary/digest (max 128 chars)
-  --theme <name>      Theme name for markdown (default, grace, simple, modern). Default: default
+  --theme <name>      Theme name for markdown (zhiyuan, default, grace, simple, modern). Default: EXTEND.md or zhiyuan
   --color <name|hex>  Primary color (blue, green, vermilion, etc. or hex)
   --cover <path>      Cover image path (local or URL)
   --account <alias>   Select account by alias (for multi-account setups)
@@ -532,7 +532,7 @@ interface CliArgs {
   title?: string;
   author?: string;
   summary?: string;
-  theme: string;
+  theme?: string;
   color?: string;
   cover?: string;
   account?: string;
@@ -549,7 +549,6 @@ function parseArgs(argv: string[]): CliArgs {
     filePath: "",
     isHtml: false,
     articleType: "news",
-    theme: "default",
     citeStatus: true,
     dryRun: false,
   };
@@ -608,6 +607,10 @@ function extractHtmlTitle(html: string): string {
 
 async function main(): Promise<void> {
   const args = parseArgs(process.argv.slice(2));
+  const extConfig = loadWechatExtendConfig();
+  const resolved = resolveAccount(extConfig, args.account);
+  const effectiveTheme = args.theme || extConfig.default_theme || "zhiyuan";
+  const effectiveColor = args.color || extConfig.default_color;
 
   const filePath = path.resolve(args.filePath);
   if (!fs.existsSync(filePath)) {
@@ -654,8 +657,8 @@ async function main(): Promise<void> {
     if (!author) author = frontmatter.author || "";
     if (!digest) digest = frontmatter.digest || frontmatter.summary || frontmatter.description || "";
 
-    console.error(`[wechat-api] Theme: ${args.theme}${args.color ? `, color: ${args.color}` : ""}, citeStatus: ${args.citeStatus}`);
-    const rendered = renderMarkdownWithPlaceholders(filePath, args.theme, args.color, args.citeStatus, args.title);
+    console.error(`[wechat-api] Theme: ${effectiveTheme}${effectiveColor ? `, color: ${effectiveColor}` : ""}, citeStatus: ${args.citeStatus}`);
+    const rendered = renderMarkdownWithPlaceholders(filePath, effectiveTheme, effectiveColor, args.citeStatus, args.title);
     htmlPath = rendered.htmlPath;
     contentImages = rendered.contentImages;
     if (!title) title = rendered.title;
@@ -683,8 +686,6 @@ async function main(): Promise<void> {
   if (digest) console.error(`[wechat-api] Digest: ${digest.slice(0, 50)}...`);
   console.error(`[wechat-api] Type: ${args.articleType}`);
 
-  const extConfig = loadWechatExtendConfig();
-  const resolved = resolveAccount(extConfig, args.account);
   if (resolved.name) console.error(`[wechat-api] Account: ${resolved.name} (${resolved.alias})`);
 
   if (!author && resolved.default_author) author = resolved.default_author;
@@ -695,6 +696,8 @@ async function main(): Promise<void> {
       title,
       author: author || undefined,
       digest: digest || undefined,
+      theme: args.isHtml ? undefined : effectiveTheme,
+      color: args.isHtml ? undefined : effectiveColor,
       htmlPath,
       contentLength: htmlContent.length,
       placeholderImageCount: contentImages.length || undefined,

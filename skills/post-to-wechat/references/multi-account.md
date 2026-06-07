@@ -14,8 +14,8 @@ Details for managing multiple WeChat Official Accounts through one EXTEND.md. SK
 ## EXTEND.md Example
 
 ```md
-default_theme: default
-default_color: blue
+default_theme: zhiyuan
+default_color: gray
 
 accounts:
   - name: 宝玉的技术分享
@@ -94,7 +94,7 @@ Each account uses an isolated Chrome profile so logins don't collide.
 All publishing scripts accept `--account <alias>`:
 
 ```bash
-${BUN_X} {baseDir}/scripts/wechat-api.ts <file> --theme default --account ai-tools
-${BUN_X} {baseDir}/scripts/wechat-article.ts --markdown <file> --theme default --account baoyu
+${BUN_X} {baseDir}/scripts/wechat-api.ts <file> --theme zhiyuan --color gray --account ai-tools
+${BUN_X} {baseDir}/scripts/wechat-article.ts --markdown <file> --theme zhiyuan --color gray --account baoyu
 ${BUN_X} {baseDir}/scripts/wechat-browser.ts --markdown <file> --images ./photos/ --account baoyu
 ```

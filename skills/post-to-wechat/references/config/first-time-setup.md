@@ -48,7 +48,9 @@ Use AskUserQuestion with ALL questions in ONE call:
 header: "Theme"
 question: "Default theme for article conversion?"
 options:
-  - label: "default (Recommended)"
+  - label: "zhiyuan (Recommended)"
+    description: "Default-compatible gray-white technical column style for 智元安全"
+  - label: "default"
     description: "Classic layout - centered title with border, white-on-color H2 (default: blue)"
   - label: "grace"
     description: "Elegant - text shadows, rounded cards, refined blockquotes (default: purple)"
@@ -66,6 +68,8 @@ question: "Default color preset? (theme default if not set)"
 options:
   - label: "Theme default (Recommended)"
     description: "Use the theme's built-in default color"
+  - label: "gray"
+    description: "Medium neutral gray for professional WeChat article hierarchy"
   - label: "blue"
     description: "#0F4C81 经典蓝"
   - label: "red"
@@ -140,7 +144,7 @@ Always save to `skills/post-to-wechat/EXTEND.md`.
 ### Single Account (Default)
 
 ```md
-default_theme: [default/grace/simple/modern]
+default_theme: [zhiyuan/default/grace/simple/modern]
 default_color: [preset name, hex, or empty for theme default]
 default_publish_method: [api/browser]
 default_author: [author name or empty]
@@ -152,7 +156,7 @@ chrome_profile_path:
 ### Multi-Account
 
 ```md
-default_theme: [default/grace/simple/modern]
+default_theme: [zhiyuan/default/grace/simple/modern]
 default_color: [preset name, hex, or empty for theme default]
 
 accounts:

@@ -37,6 +37,7 @@ Respond in the user's language. If they write in Chinese, reply in Chinese; if E
 | `scripts/wechat-article.ts` | Article posting via browser (文章) |
 | `scripts/wechat-api.ts` | Article posting via API (文章) |
 | `scripts/md-to-wechat.ts` | Markdown → WeChat-ready HTML with image placeholders |
+| `scripts/style-preview.ts` | Generate stable local HTML previews for one theme or all themes |
 | `scripts/check-permissions.ts` | Verify environment & permissions |
 
 ## Preferences (EXTEND.md)
@@ -60,18 +61,54 @@ Found → read, parse, apply. Not found → run first-time setup (`references/co
 **Recommended EXTEND.md**:
 
 ```md
-default_theme: default
-default_color: blue
+default_theme: zhiyuan
+default_color: gray
 default_publish_method: api
-default_author: 宝玉
+default_author: 智元安全
+preview_before_publish: 1
+default_style_gallery: 1
 need_open_comment: 1
 only_fans_can_comment: 0
 chrome_profile_path: /path/to/chrome/profile
 ```
 
-**Theme options**: default, grace, simple, modern. **Color presets**: blue, green, vermilion, yellow, purple, sky, rose, olive, black, gray, pink, red, orange (or hex).
+**Theme options**: zhiyuan, default, grace, simple, modern. **Color presets**: gray, blue, green, vermilion, yellow, purple, sky, rose, olive, black, pink, red, orange (or hex).
 
 **Value priority**: CLI args → frontmatter → EXTEND.md (account-level → global) → skill defaults.
+
+## Personal Account Style
+
+For the local `智元安全` account, read `references/personal-style.md` before publishing or preparing a final draft. Apply it as a publish-time quality gate, not as an article-writing workflow.
+
+Required defaults:
+
+- `default_author`: `智元安全`
+- `default_theme`: `zhiyuan`
+- `default_color`: `gray`
+- `preview_before_publish`: `1`
+- `default_style_gallery`: `1`
+
+`zhiyuan` is the local default-compatible WeChat theme: a technical-column version of the built-in `default` layout, with Songti Chinese prose, restrained grayscale H2 blocks, standard H3 left rules, medium-gray emphasis, WeChat-blue links, light blockquotes, light code blocks, and mixed Chinese-English safeguards that remain stable in the WeChat editor.
+
+If an article comes from `wechat-media-workflow`, preserve its existing title, summary, cover, and image paths. Do not rewrite the article body in this skill.
+
+## Style Preview
+
+Use `references/style-preview.md` when the user asks for 样式展示, style preview, theme comparison, or when `preview_before_publish: 1` is enabled.
+
+Generate one stable preview:
+
+```bash
+${BUN_X} {baseDir}/scripts/style-preview.ts <article.md> --theme <theme> [--color <color>]
+```
+
+Generate all built-in theme previews:
+
+```bash
+${BUN_X} {baseDir}/scripts/style-preview.ts <article.md> --gallery [--color <color>]
+```
+
+The script writes HTML to `post-to-wechat/previews/<article-slug>/` under the current project root. Report these paths before publishing. Use `--open` only when the user asks to open the preview.
 
 ## Multi-Account Support
 
@@ -118,8 +155,9 @@ Details: `references/image-text-posting.md`.
 - [ ] Step 1: Determine input type
 - [ ] Step 2: Select method and configure credentials
 - [ ] Step 3: Resolve theme/color and validate metadata
-- [ ] Step 4: Publish to WeChat
-- [ ] Step 5: Report completion
+- [ ] Step 4: Generate style preview when enabled
+- [ ] Step 5: Publish to WeChat
+- [ ] Step 6: Report completion
 ```
 
 ### Step 0: Load Preferences
@@ -153,7 +191,7 @@ Ask method unless specified in EXTEND.md or CLI:
 
 ### Step 3: Resolve Theme/Color and Validate Metadata
 
-1. **Theme**: CLI `--theme` → EXTEND.md `default_theme` → `default` (first match wins; do NOT ask if resolved).
+1. **Theme**: CLI `--theme` → EXTEND.md `default_theme` → `zhiyuan` (first match wins; do NOT ask if resolved).
 2. **Color**: CLI `--color` → EXTEND.md `default_color` → omit (theme default applies).
 3. **Validate metadata** (frontmatter for markdown, meta tags for HTML):
 
@@ -167,7 +205,25 @@ Auto-generation: title = first H1/H2 or first sentence; summary = first paragrap
 
 4. **Cover image** (required for API `article_type=news`): CLI `--cover` → frontmatter (`coverImage` / `featureImage` / `cover` / `image`) → `imgs/cover.png` → first inline image → stop and request one if still missing.
 
-### Step 4: Publish
+### Step 4: Generate Style Preview
+
+When `preview_before_publish: 1` or the user asks for style display, generate stable local preview HTML before dry-run or publish.
+
+Use single-theme preview when theme/color are already chosen:
+
+```bash
+${BUN_X} {baseDir}/scripts/style-preview.ts <file.md> --theme <theme> [--color <color>]
+```
+
+Use gallery preview when `default_style_gallery: 1`, no theme was chosen, or the user asks to compare styles:
+
+```bash
+${BUN_X} {baseDir}/scripts/style-preview.ts <file.md> --gallery [--color <color>]
+```
+
+If the input is HTML, skip Markdown style preview and report that the file is already pre-rendered.
+
+### Step 5: Publish
 
 **Important — never pre-convert markdown to HTML.** Publishing scripts handle the conversion internally and the two methods render images differently: API renders `<img>` tags for upload, browser uses placeholders for paste-and-replace. Passing a pre-converted HTML breaks one or the other.
 
@@ -194,7 +250,7 @@ ${BUN_X} {baseDir}/scripts/wechat-article.ts --markdown <markdown_file> --theme 
 ${BUN_X} {baseDir}/scripts/wechat-article.ts --html <html_file>
 ```
 
-### Step 5: Completion Report
+### Step 6: Completion Report
 
 ```
 WeChat Publishing Complete!
@@ -202,6 +258,8 @@ WeChat Publishing Complete!
 Input: [type] - [path]
 Method: [API | Browser]
 Theme: [theme] [color if set]
+Preview:
+• [preview html paths, if generated]
 
 Article:
 • Title: [title]
@@ -256,6 +314,8 @@ Files created:
 |------|---------|
 | `references/image-text-posting.md` | Image-text parameters, auto-compression |
 | `references/article-posting.md` | Article themes, image handling |
+| `references/personal-style.md` | Local account defaults and publish-time quality gate |
+| `references/style-preview.md` | Stable local HTML preview and theme gallery workflow |
 | `references/multi-account.md` | Multi-account compatibility, credentials, Chrome profiles, CLI |
 | `references/api-setup.md` | Guided credential setup |
 | `references/config/first-time-setup.md` | First-time EXTEND.md setup |

@@ -750,7 +750,7 @@ Options:
   --content <text>   Article content (use with --image)
   --html <path>      HTML file to paste (alternative to --content)
   --markdown <path>  Markdown file to convert and post (recommended)
-  --theme <name>     Theme for markdown (default, grace, simple, modern)
+  --theme <name>     Theme for markdown (zhiyuan, default, grace, simple, modern)
   --color <name|hex> Primary color (blue, green, vermilion, etc. or hex)
   --no-cite          Disable bottom citations for ordinary external links in markdown mode
   --author <name>    Author name
@@ -820,6 +820,8 @@ async function main(): Promise<void> {
   if (resolved.name) console.log(`[wechat] Account: ${resolved.name} (${resolved.alias})`);
 
   if (!author && resolved.default_author) author = resolved.default_author;
+  if (!theme && extConfig.default_theme) theme = extConfig.default_theme;
+  if (!color && extConfig.default_color) color = extConfig.default_color;
 
   if (!profileDir && resolved.alias) {
     profileDir = resolved.chrome_profile_path || getAccountProfileDir(resolved.alias);
