@@ -44,7 +44,7 @@ The preview script rewrites local image placeholders to `file://` URLs so the lo
 
 ## Selection Guidance
 
-Default recommendation for `智元安全`:
+Default recommendation for technical WeChat accounts:
 
 - Start with `zhiyuan + gray`, a conservative default-compatible WeChat style.
 - Use `simple` only when the article is short and image-light.

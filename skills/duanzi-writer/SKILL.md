@@ -1,6 +1,10 @@
 ---
 name: duanzi-writer
+version: 1.0.0
 description: "Write Chinese social-media jokes, punchy observations, roast-style posts, and short comedic copy. Use when the user asks for 段子, 搞笑文案, 社交媒体段子, X/微博/朋友圈/即刻发文, 吐槽, 玩梗, 整活, or wants a funny short post about AI tools, agents, skills, developer life, products, startup work, or internet culture."
+repository: https://github.com/0xfelixli/oh-skills
+license: MIT
+author: 0xfelixli
 ---
 
 # Duanzi Writer

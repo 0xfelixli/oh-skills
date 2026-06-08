@@ -17,6 +17,9 @@ triggers:
   - 发链接放映
   - 直接打开能翻页
   - 浏览器幻灯片
+repository: https://github.com/0xfelixli/oh-skills
+license: MIT
+author: 0xfelixli
 ---
 
 # browser-deck

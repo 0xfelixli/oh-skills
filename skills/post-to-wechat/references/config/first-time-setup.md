@@ -49,7 +49,7 @@ header: "Theme"
 question: "Default theme for article conversion?"
 options:
   - label: "zhiyuan (Recommended)"
-    description: "Default-compatible gray-white technical column style for 智元安全"
+    description: "Default-compatible gray-white technical column style"
   - label: "default"
     description: "Classic layout - centered title with border, white-on-color H2 (default: blue)"
   - label: "grace"

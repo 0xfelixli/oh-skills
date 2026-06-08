@@ -1,6 +1,6 @@
-# Personal Style
+# Account Style
 
-Use this reference for the local `智元安全` WeChat Official Account. It is a publish-time quality gate for `post-to-wechat`, not a full writing workflow.
+Use this reference as an example account style guide. Replace the placeholder brand values with the user's actual WeChat Official Account name when configuring a private project. It is a publish-time quality gate for `post-to-wechat`, not a full writing workflow.
 
 ## Defaults
 
@@ -10,7 +10,7 @@ Use these unless the user explicitly overrides them:
 default_theme: zhiyuan
 default_color: gray
 default_publish_method: api
-default_author: 智元安全
+default_author: 你的品牌名
 preview_before_publish: 1
 default_style_gallery: 1
 need_open_comment: 1
@@ -39,7 +39,7 @@ The `zhiyuan` theme should read as a technical-column version of the built-in `d
 
 Before dry-run or publish, verify:
 
-- `author` resolves to `智元安全`.
+- `author` resolves to the configured account/brand name.
 - `title` is explicit, not auto-generated from an accidental first paragraph.
 - `summary` is 80-120 Chinese characters when possible and reads like a WeChat digest.
 - `cover` exists and is under `assets/wechat-covers/` unless the user intentionally provides another path.

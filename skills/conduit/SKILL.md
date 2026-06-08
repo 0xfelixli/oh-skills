@@ -17,6 +17,9 @@ triggers:
   - phabricator
   - conduit task
   - maniphest
+repository: https://github.com/0xfelixli/oh-skills
+license: MIT
+author: 0xfelixli
 ---
 
 # Conduit — Phabricator/Phorge CLI Skill

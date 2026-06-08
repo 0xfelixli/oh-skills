@@ -4,10 +4,13 @@ version: "3.3.1"
 description: "Research what people actually say about any topic in the last 30 days. Pulls posts and engagement from Reddit, X, YouTube, TikTok, Hacker News, Polymarket, GitHub, and the web."
 argument-hint: 'last30days nvidia earnings reaction | last30days AI video tools | last30days what users want in react'
 allowed-tools: Bash, Read, Write, AskUserQuestion, WebSearch
-homepage: https://github.com/mvanhorn/last30days-skill
-repository: https://github.com/mvanhorn/last30days-skill
-author: mvanhorn
+homepage: https://github.com/0xfelixli/oh-skills
+repository: https://github.com/0xfelixli/oh-skills
+author: 0xfelixli
 license: MIT
+upstream:
+  repository: https://github.com/mvanhorn/last30days-skill
+  author: mvanhorn
 user-invocable: true
 metadata:
   openclaw:

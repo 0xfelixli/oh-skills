@@ -1,29 +1,47 @@
 # oh-skills
 
-A small collection of agent skills I find useful, plus installation commands for Claude Code and Codex.
+[![skills.sh](https://skills.sh/b/0xfelixli/oh-skills)](https://skills.sh/0xfelixli/oh-skills)
+
+A small collection of agent skills for Claude Code, Codex, and other agents supported by the `skills` CLI.
+
+Each skill lives under `skills/<skill-name>/` and is defined by a `SKILL.md` file with YAML frontmatter.
 
 ## Usage
+
+### Browse
+
+List the skills in this repository:
+
+```bash
+npx skills add 0xfelixli/oh-skills --list
+```
 
 ### Install
 
 Install a skill from this repository:
 
 ```bash
-npx skills add 0xfelixli/oh-skills@<skill-name> -a claude-code -a codex
+npx skills add 0xfelixli/oh-skills --skill <skill-name> -a claude-code -a codex
 ```
 
 Examples:
 
 ```bash
-npx skills add 0xfelixli/oh-skills@post-to-wechat -a claude-code -a codex
-npx skills add 0xfelixli/oh-skills@browser-deck -a claude-code -a codex
+npx skills add 0xfelixli/oh-skills --skill post-to-wechat -a claude-code -a codex
+npx skills add 0xfelixli/oh-skills --skill browser-deck -a claude-code -a codex
 ```
 
 Install for only one agent:
 
 ```bash
-npx skills add 0xfelixli/oh-skills@post-to-wechat -a claude-code
-npx skills add 0xfelixli/oh-skills@post-to-wechat -a codex
+npx skills add 0xfelixli/oh-skills --skill post-to-wechat -a claude-code
+npx skills add 0xfelixli/oh-skills --skill post-to-wechat -a codex
+```
+
+Install all skills from this repository:
+
+```bash
+npx skills add 0xfelixli/oh-skills --skill '*' -a claude-code -a codex
 ```
 
 If you have cloned this repository, you can also install from a local path:
@@ -108,7 +126,23 @@ Run entrypoint-based security audits that produce evidence-backed findings, PoCs
 
 Write Chinese social-media jokes, punchy observations, and short comedic posts for AI tools, developer workflows, products, and internet culture.
 
+### 8) `wechat-cover-image-py`
+
+Generate simple WeChat Official Account cover images locally with Python and Pillow.
+
+## Contributing
+
+Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for the expected structure and review checklist.
+
+## Security
+
+Skills can execute tools and scripts depending on the agent runtime. Review a skill before installing it, especially if it uses credentials, browser automation, local files, or network APIs. To report a vulnerability, see [SECURITY.md](SECURITY.md).
+
+## License
+
+MIT. See [LICENSE](LICENSE).
+
 ## Notes
 
-- This repository is mainly a personal collection of useful skills, not a traditional application project.
-- Local runtime artifacts like `.env`, `node_modules`, `.DS_Store` should not be committed.
+- This repository is a collection of skills, not a traditional application project.
+- Local runtime artifacts like `.env`, `node_modules`, `.DS_Store`, credentials, cookies, and generated drafts should not be committed.

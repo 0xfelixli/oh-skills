@@ -134,14 +134,14 @@ test("parseWechatExtend reads personal style preview preferences", () => {
   const config = parseWechatExtend(`
 default_theme: zhiyuan
 default_color: gray
-default_author: 智元安全
+default_author: 示例作者
 preview_before_publish: 1
 default_style_gallery: true
 need_open_comment: 1
 only_fans_can_comment: 0
 `);
 
-  assert.equal(config.default_author, "智元安全");
+  assert.equal(config.default_author, "示例作者");
   assert.equal(config.default_theme, "zhiyuan");
   assert.equal(config.default_color, "gray");
   assert.equal(config.preview_before_publish, 1);

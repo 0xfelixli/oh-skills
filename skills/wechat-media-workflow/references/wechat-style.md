@@ -1,6 +1,6 @@
 # WeChat Style Reference
 
-This reference captures the local `wechat_media` article style. Use it to plan topics, write drafts, and design images.
+This reference captures an example technical WeChat article style. Adapt the placeholders to the user's own account before publishing.
 
 ## Existing Pattern
 
@@ -130,7 +130,7 @@ Cover images should work as WeChat thumbnails:
 - ratio about `900x383`
 - high contrast
 - short Chinese main text
-- brand label `智元安全`
+- brand label matching the configured account/brand name
 - no clutter, no unrelated logos, no tiny unreadable code
 
 ## Markdown Packaging
@@ -141,7 +141,7 @@ Preferred frontmatter:
 ---
 title: 标题
 summary: 摘要
-author: 智元安全
+author: 你的品牌名
 cover: assets/wechat-covers/<cover>.png
 ---
 ```

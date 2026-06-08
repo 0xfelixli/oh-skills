@@ -1,6 +1,10 @@
 ---
 name: wechat-cover-image
+version: 1.0.0
 description: Generate finished WeChat Official Account cover images (公众号封面图成品) from article title/topic. Use when user asks for "公众号封面", "微信封面图", "wechat cover", "封面图生成", or "文章封面".
+repository: https://github.com/0xfelixli/oh-skills
+license: MIT
+author: 0xfelixli
 ---
 
 # WeChat Cover Image
@@ -14,11 +18,11 @@ Generate a ready-to-use WeChat Official Account cover image.
 - Ensure title text is clear, high contrast, and not cropped.
 - Keep text concise: usually 8-18 Chinese characters for the main title.
 - Generated image must be copied to a project-local fixed folder before completion.
-- Default brand text must appear at top-left: `智元安全`.
+- Brand text should appear at top-left. Use the user's configured brand name; otherwise use `你的品牌名` as a placeholder.
 
 ## Brand Placement (Required)
 
-- Default brand name: `智元安全`.
+- Default brand placeholder: `你的品牌名`.
 - Brand must be placed at top-left corner in a small, clear label area.
 - Brand style should be subtle but readable; must not compete with the main title.
 - If user provides another brand name, user input overrides the default.
@@ -76,7 +80,7 @@ Style: {style}.
 Theme: {topic}.
 Canvas: 900x383, wide horizontal composition, strong visual hierarchy.
 Text layout: reserve safe text area on left/center, avoid cropping.
-Top-left brand label: "智元安全" (small but clear, not dominant).
+Top-left brand label: "{brand}" (small but clear, not dominant).
 Main Chinese title: "{title}".
 Subtitle (optional): "{subtitle}".
 Look: clean, modern, professional, high contrast, no watermark, no unrelated logo, no clutter.
@@ -90,6 +94,6 @@ Before finalizing, verify:
 - No obvious typo in Chinese text.
 - Foreground text does not blend into background.
 - Composition still looks good after center-crop tolerance.
-- Brand `智元安全` appears in top-left and remains legible.
+- Brand label appears in top-left and remains legible.
 
 If quality is weak, regenerate once with stronger contrast and simpler background.

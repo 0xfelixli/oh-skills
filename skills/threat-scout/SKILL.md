@@ -1,6 +1,10 @@
 ---
 name: threat-scout
+version: 1.0.0
 description: "Run a full security audit workflow for a codebase. Use when the user asks for a security audit, vulnerability review, full code security review, entrypoint-based audit, OWASP-style review, or wants confirmed findings with PoCs and audit artifacts. Focuses on reproducible, evidence-backed issues rather than speculative best-practice comments."
+repository: https://github.com/0xfelixli/oh-skills
+license: MIT
+author: 0xfelixli
 ---
 
 # Threat Scout

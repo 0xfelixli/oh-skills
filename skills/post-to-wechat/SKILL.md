@@ -2,6 +2,9 @@
 name: post-to-wechat
 description: Post content to WeChat Official Account (微信公众号) via API or Chrome CDP. Supports article posting (文章) with HTML, markdown, or plain text input, and image-text posting (贴图, formerly 图文) with multiple images. Markdown article workflows default to converting ordinary external links into bottom citations for WeChat-friendly output. Use when user mentions "发布公众号", "post to wechat", "微信公众号", or "贴图/图文/文章".
 version: 1.56.1
+repository: https://github.com/0xfelixli/oh-skills
+license: MIT
+author: 0xfelixli
 metadata:
   openclaw:
     homepage: https://github.com/JimLiu/baoyu-skills#baoyu-post-to-wechat
@@ -48,7 +51,7 @@ Check these paths in order; first hit wins:
 |------|-------|
 | `skills/post-to-wechat/EXTEND.md` | Skill-local |
 
-Found → read, parse, apply. Not found → run first-time setup (`references/config/first-time-setup.md`) before anything else.
+Found → read, parse, apply. Not found → run first-time setup (`references/config/first-time-setup.md`) before anything else. For public repositories, keep only `EXTEND.example.md` committed and leave the real `EXTEND.md` untracked.
 
 **Minimum keys** (case-insensitive, accept `1/0` or `true/false`):
 
@@ -64,7 +67,7 @@ Found → read, parse, apply. Not found → run first-time setup (`references/co
 default_theme: zhiyuan
 default_color: gray
 default_publish_method: api
-default_author: 智元安全
+default_author: 你的品牌名
 preview_before_publish: 1
 default_style_gallery: 1
 need_open_comment: 1
@@ -78,11 +81,11 @@ chrome_profile_path: /path/to/chrome/profile
 
 ## Personal Account Style
 
-For the local `智元安全` account, read `references/personal-style.md` before publishing or preparing a final draft. Apply it as a publish-time quality gate, not as an article-writing workflow.
+When the active account/author has a project-specific style guide, read `references/personal-style.md` before publishing or preparing a final draft. Apply it as a publish-time quality gate, not as an article-writing workflow.
 
-Required defaults:
+Example defaults:
 
-- `default_author`: `智元安全`
+- `default_author`: `你的品牌名`
 - `default_theme`: `zhiyuan`
 - `default_color`: `gray`
 - `preview_before_publish`: `1`
@@ -314,7 +317,7 @@ Files created:
 |------|---------|
 | `references/image-text-posting.md` | Image-text parameters, auto-compression |
 | `references/article-posting.md` | Article themes, image handling |
-| `references/personal-style.md` | Local account defaults and publish-time quality gate |
+| `references/personal-style.md` | Optional account defaults and publish-time quality gate |
 | `references/style-preview.md` | Stable local HTML preview and theme gallery workflow |
 | `references/multi-account.md` | Multi-account compatibility, credentials, Chrome profiles, CLI |
 | `references/api-setup.md` | Guided credential setup |

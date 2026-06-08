@@ -1,6 +1,10 @@
 ---
 name: wechat-media-workflow
+version: 1.0.0
 description: Use when planning, writing, illustrating, reviewing, or publishing Chinese WeChat Official Account articles (微信公众号) for AI, open-source tools, security, developer workflows, GitHub projects, or technical product analysis. Covers 公众号选题、文章编写、正文图片/封面图生成、Markdown 成稿、发布到公众号草稿箱.
+repository: https://github.com/0xfelixli/oh-skills
+license: MIT
+author: 0xfelixli
 ---
 
 # WeChat Media Workflow
@@ -9,8 +13,8 @@ End-to-end workflow for Chinese WeChat Official Account work: topic selection, r
 
 ## Defaults
 
-- Default working folder: `/Users/felix/Wspace/wechat_media` when it exists; otherwise use the current project root.
-- Default account/brand/author: `智元安全`.
+- Default working folder: use the user's current project root unless they provide a workspace path.
+- Default account/brand/author: use the user's configured brand name; otherwise use `你的品牌名` as a placeholder.
 - Default output: Markdown article with frontmatter, local image assets, and source links.
 - Default topic domain: AI tools, open-source projects, developer workflows, security incidents, and technical product analysis.
 - Use the user's language for conversation. Articles are Chinese unless explicitly requested otherwise.
@@ -31,7 +35,7 @@ Read `references/wechat-style.md` when doing any of these:
 - choosing or scoring topics
 - writing or rewriting article body
 - designing inline images or cover direction
-- checking whether an article matches the existing `wechat_media` style
+- checking whether an article matches the current project's WeChat article style
 
 Before writing, inspect 3-5 recent Markdown files in the working folder if available. Use them to avoid repeated topics and match naming/path conventions.
 
@@ -105,7 +109,7 @@ Use frontmatter:
 ---
 title: 标题
 summary: 80-120 字摘要
-author: 智元安全
+author: 你的品牌名
 cover: assets/wechat-covers/<cover-file>.png
 ---
 ```
@@ -164,7 +168,7 @@ Cover image:
 - Use `wechat-cover-image`.
 - Save under `assets/wechat-covers/`.
 - Keep main cover text short, usually 8-18 Chinese characters.
-- Ensure brand label is `智元安全`.
+- Ensure brand label uses the configured account/brand name.
 - Update the article frontmatter `cover:` path after the file exists.
 
 Do not leave image references pointing to temporary generated-image cache paths.
@@ -192,7 +196,7 @@ bun skills/post-to-wechat/scripts/wechat-api.ts \
   "<article.md>" \
   --theme zhiyuan \
   --color gray \
-  --author "智元安全" \
+  --author "你的品牌名" \
   --title "<title>" \
   --summary "<summary>" \
   --cover assets/wechat-covers/<cover>.png \
