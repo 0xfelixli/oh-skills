@@ -12,6 +12,11 @@ browser-deck 继承 kami 设计 token：暖羊皮背景、ink-blue 强调色、�
   --parchment:   #f5f4ed;   /* 幻灯片卡片背景 */
   --ivory:       #faf9f5;   /* 卡片 / 浮起容器 */
   --brand:       #1B365D;   /* 强调色，覆盖面积 ≤ 5% */
+  --slide-pad-bottom: 6.8%;
+  --slide-pres-pad-bottom: 11vh;
+  --control-bottom: 5%;
+  --meta-bottom: 6%;
+  --meta-right-safe: 12%;
   --near-black:  #141413;
   --dark-warm:   #3d3d3a;
   --olive:       #504e49;
@@ -47,7 +52,7 @@ html, body { background: var(--bg); }
 .slide {
   background: var(--parchment);
   aspect-ratio: 16 / 9;
-  padding: 3.8% 5.5% 5%;
+  padding: 3.8% 5.5% var(--slide-pad-bottom);
   border-radius: 8px; border: 1px solid #d4cfc3;
   box-shadow: 0 2px 6px rgba(0,0,0,0.07), 0 6px 20px rgba(0,0,0,0.06);
   container-type: inline-size;
@@ -67,7 +72,7 @@ body.pres .slide {
   position: fixed; top: 0; left: 0;
   width: 100vw; height: 100vh;
   border-radius: 0; border: none; box-shadow: none; aspect-ratio: auto;
-  padding: 5.5vh 7vw 9vh;
+  padding: 5.5vh 7vw var(--slide-pres-pad-bottom);
 }
 body.pres .slide.active { display: flex; animation: fadeIn 0.2s ease; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -97,15 +102,17 @@ Safari 15 及以下不支持 `cqw`，会降级到 `clamp` 最小值（仍可读�
 
 ```css
 .slide-play {
-  position: absolute; bottom: 3.5%; right: 5%;
+  position: absolute; bottom: var(--control-bottom); right: 5%;
   width: 34px; height: 34px; border-radius: 50%;
   background: rgba(27,54,93,0.82); color: white; border: none;
   cursor: pointer; display: flex; align-items: center; justify-content: center;
-  opacity: 0; transition: opacity 0.18s; z-index: 10;
+  opacity: 0; pointer-events: none; transition: opacity 0.18s; z-index: 10;
 }
-.slide:hover .slide-play { opacity: 1; }
+.slide:hover .slide-play { opacity: 1; pointer-events: auto; }
 .slide:hover .pg { opacity: 0; }   /* 页码让位给播放按钮 */
 ```
+
+底部安全区：`.pg` 和 `.slide-play` 固定在右下角，封面/结尾页的 `.c-meta` 不要铺满到同一个角落。使用 `--control-bottom`、`--meta-bottom`、`--meta-right-safe` 统一控制底部留白，给页码和播放按钮留出独立区域。
 
 ---
 

@@ -46,7 +46,9 @@ browser-deck 继承 kami slides 的所有内容规则，以下是核心摘录和
 
 ### 页码定位
 
-`.pg` 始终用 `position: absolute; bottom: 3.5%; right: 5%`，两种模式下都有效，不需要区分 `body.pres`。
+`.pg` 始终用 `position:absolute; bottom:var(--control-bottom); right:5%`，两种模式下都有效，不需要区分 `body.pres`。
+
+封面和结语的 `.c-meta` 使用 `bottom:var(--meta-bottom); right:var(--meta-right-safe)`，不要铺满右下角；右下角要留给 `.pg` 和 `.slide-play`。
 
 ### 幻灯片密度控制
 

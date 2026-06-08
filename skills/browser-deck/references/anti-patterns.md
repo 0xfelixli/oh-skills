@@ -39,8 +39,8 @@ browser-deck 生成过程中发现的典型错误。每条都有根因说明，�
 | # | 错误 | 表现 | 修复 |
 |---|---|---|---|
 | 10 | 放映按钮遮挡内容 | `position:fixed` 的 `#btn-start` 悬在页面右上角，遮挡幻灯片内容 | 用 sticky toolbar，放映按钮放 toolbar 内 |
-| 11 | hover 播放按钮触发翻页 | 点 `.slide-play` 进入放映后，click 事件冒泡触发翻页 | click 全局监听里加 `e.target.closest('.slide-play')` 排除 |
-| 12 | 页码和播放按钮重叠 | `.pg` 和 `.slide-play` 都在右下角，hover 时互相遮挡 | 加 `.slide:hover .pg { opacity: 0; }` |
+| 11 | hover 播放按钮触发翻页或隐形拦截点击 | 点 `.slide-play` 进入放映后，click 事件冒泡触发翻页；或 opacity 为 0 的按钮仍拦截右下角点击 | click 全局监听里加 `e.target.closest('.slide-play')` 排除；`.slide-play` 默认 `pointer-events:none`，hover 时再启用 |
+| 12 | 底部文字和控件挤在一起 | `.pg`、`.slide-play`、封面 `.c-meta` 都贴在右下角，页码或署名显得压底/重叠 | 用 `--slide-pad-bottom:6.8%`、`--slide-pres-pad-bottom:11vh`、`--control-bottom:5%`、`--meta-bottom:6%`、`--meta-right-safe:12%` 统一控制底部安全区 |
 
 ---
 

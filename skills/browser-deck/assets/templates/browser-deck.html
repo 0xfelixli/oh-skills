@@ -15,6 +15,8 @@
     --brand:#1B365D; --border:#e8e6dc; --border-soft:#e5e3d8;
     --red:#c0392b; --red-bg:#fdf0ef; --orange:#d35400; --orange-bg:#fdf3e9;
     --bg:#e8e4da;
+    --slide-pad-bottom:6.8%; --slide-pres-pad-bottom:11vh;
+    --control-bottom:5%; --meta-bottom:6%; --meta-right-safe:12%;
     --serif:"TsangerJinKai02","Source Han Serif SC","Noto Serif CJK SC","Songti SC",Georgia,serif;
     --mono:"JetBrains Mono","SF Mono",Consolas,monospace;
   }
@@ -40,7 +42,7 @@
     background:var(--parchment); border-radius:8px;
     border:1px solid #d4cfc3;
     box-shadow:0 2px 6px rgba(0,0,0,0.07), 0 6px 20px rgba(0,0,0,0.06);
-    aspect-ratio:16/9; padding:3.8% 5.5% 5%;
+    aspect-ratio:16/9; padding:3.8% 5.5% var(--slide-pad-bottom);
     position:relative; display:flex; flex-direction:column; overflow:hidden;
     container-type:inline-size; cursor:default;
   }
@@ -49,13 +51,13 @@
 
   /* hover play button */
   .slide-play {
-    position:absolute; bottom:3.5%; right:5%;
+    position:absolute; bottom:var(--control-bottom); right:5%;
     width:34px; height:34px; border-radius:50%;
     background:rgba(27,54,93,0.82); color:white; border:none;
     cursor:pointer; display:flex; align-items:center; justify-content:center;
-    opacity:0; transition:opacity 0.18s; z-index:10;
+    opacity:0; pointer-events:none; transition:opacity 0.18s; z-index:10;
   }
-  .slide:hover .slide-play { opacity:1; }
+  .slide:hover .slide-play { opacity:1; pointer-events:auto; }
   .slide:hover .pg { opacity:0; }
   .slide-play svg { margin-left:2px; }
 
@@ -67,7 +69,7 @@
     display:none; position:fixed; top:0; left:0;
     width:100vw; height:100vh;
     border-radius:0; border:none; box-shadow:none; aspect-ratio:auto;
-    padding:5.5vh 7vw 9vh;
+    padding:5.5vh 7vw var(--slide-pres-pad-bottom);
   }
   body.pres .slide.active { display:flex; animation:fadeIn 0.2s ease; }
   @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
@@ -126,7 +128,7 @@
   .c-stats { display:flex; gap:clamp(20px,4cqw,56px); margin-bottom:2em; }
   .c-sn { font-size:clamp(24pt,4.6cqw,46pt); font-weight:500; color:white; line-height:1; margin-bottom:4px; }
   .c-sl { font-size:clamp(8pt,0.98cqw,10.5pt); color:rgba(255,255,255,0.5); letter-spacing:0.4pt; }
-  .c-meta { font-size:clamp(8pt,0.92cqw,10pt); color:rgba(255,255,255,0.4); border-top:1px solid rgba(255,255,255,0.1); padding-top:0.9em; position:absolute; bottom:4.5%; left:5.5%; right:5.5%; }
+  .c-meta { font-size:clamp(8pt,0.92cqw,10pt); color:rgba(255,255,255,0.4); border-top:1px solid rgba(255,255,255,0.1); padding-top:0.9em; position:absolute; bottom:var(--meta-bottom); left:5.5%; right:var(--meta-right-safe); }
   .cover-decor { position:absolute; border-radius:50%; pointer-events:none; }
 
   /* ══ COMPONENTS ════════════════════════════════════════════════════════════ */
@@ -197,7 +199,7 @@
   code { font-family:var(--mono); font-size:0.84em; background:#eeecd9; padding:1px 4px; border-radius:3px; color:var(--dark-warm); }
 
   /* Page number */
-  .pg { position:absolute; bottom:3.5%; right:5%; font-family:var(--mono); font-size:clamp(7pt,0.92cqw,9.5pt); color:var(--stone); letter-spacing:0.4pt; }
+  .pg { position:absolute; bottom:var(--control-bottom); right:5%; font-family:var(--mono); font-size:clamp(7pt,0.92cqw,9.5pt); color:var(--stone); letter-spacing:0.4pt; }
   .s-cover .pg, .s-end .pg { color:rgba(255,255,255,0.38); }
 </style>
 </head>
